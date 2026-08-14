@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm audit --audit-level=high
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --all-features --all-targets -- -D warnings
+      - run: cargo test --all-features --locked
+      - name: REST contracts
+        run: cargo test --all-features --locked --test generated_rest_contract -- --ignored --test-threads=1
+      - name: SSE contracts
+        run: cargo test --all-features --locked --test generated_stream_contract -- --ignored --test-threads=1
+      - name: SSE fault contracts
+        run: cargo test --all-features --locked --test sse_runtime_contract -- --ignored --test-threads=1
+      - name: Channel contracts
+        run: cargo test --all-features --locked --test generated_channel_contract -- --ignored --test-threads=1
+      - name: Channel fault contracts
+        run: cargo test --all-features --locked --test channel_runtime_contract -- --ignored --test-threads=1
+
+  msrv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0
+      - run: cargo check --locked --no-default-features --features rustls-tls
