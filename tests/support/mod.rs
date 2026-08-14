@@ -1,5 +1,5 @@
 use std::io::BufRead;
-use std::process::{Child, Command, Stdio};
+use std::process::{Child, ChildStdout, Command, Stdio};
 use std::sync::{Mutex, OnceLock};
 use std::time::{Duration, Instant};
 
@@ -8,7 +8,11 @@ use serde::Deserialize;
 use serde_json::json;
 
 static PRISM: OnceLock<Mutex<Child>> = OnceLock::new();
-static HARNESS: OnceLock<(HarnessEndpoints, Mutex<Child>)> = OnceLock::new();
+static HARNESS: OnceLock<(
+    HarnessEndpoints,
+    Mutex<Child>,
+    Mutex<std::io::BufReader<ChildStdout>>,
+)> = OnceLock::new();
 
 pub fn mark_all_used() {
     let _ = rest_client;
@@ -95,7 +99,7 @@ pub struct Harness {
 }
 
 pub async fn harness() -> Harness {
-    let (endpoints, _) = HARNESS.get_or_init(|| {
+    let (endpoints, _, _) = HARNESS.get_or_init(|| {
         let root = env!("CARGO_MANIFEST_DIR");
         let bin = std::env::var("ARCHASTRO_HARNESS_BIN").unwrap_or_else(|_| {
             format!("{root}/node_modules/@archastro/channel-harness/dist/bin.js")
@@ -105,16 +109,14 @@ pub async fn harness() -> Harness {
         let mut child = Command::new("node")
             .args([&bin, &spec])
             .stdout(Stdio::piped())
-            .stderr(Stdio::null())
+            .stderr(Stdio::inherit())
             .spawn()
             .expect("start channel harness");
-        let line = std::io::BufReader::new(child.stdout.take().expect("harness stdout"))
-            .lines()
-            .next()
-            .expect("harness URL line")
-            .expect("read harness URL line");
+        let mut stdout = std::io::BufReader::new(child.stdout.take().expect("harness stdout"));
+        let mut line = String::new();
+        stdout.read_line(&mut line).expect("read harness URL line");
         let endpoints = serde_json::from_str(&line).expect("parse harness URLs");
-        (endpoints, Mutex::new(child))
+        (endpoints, Mutex::new(child), Mutex::new(stdout))
     });
     let harness = Harness {
         endpoints: endpoints.clone(),
