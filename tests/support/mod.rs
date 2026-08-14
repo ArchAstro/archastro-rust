@@ -108,6 +108,7 @@ pub async fn harness() -> Harness {
             .unwrap_or_else(|_| format!("{root}/specs/platform-openapi.json"));
         let mut child = Command::new("node")
             .args([&bin, &spec])
+            .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::inherit())
             .spawn()
