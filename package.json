@@ -1,0 +1,22 @@
+{
+  "name": "archastro-rust-tooling",
+  "private": true,
+  "description": "Generator, Prism, and channel-harness tooling for the ArchAstro Rust SDK.",
+  "scripts": {
+    "regenerate": "bash scripts/regenerate_sdk.sh"
+  },
+  "devDependencies": {
+    "@archastro/channel-harness": "latest",
+    "@archastro/sdk-generator": "latest",
+    "@stoplight/prism-cli": "5.16.0"
+  },
+  "overrides": {
+    "fast-uri": "4.1.2",
+    "fast-xml-parser": "5.8.0",
+    "js-yaml": "5.3.0",
+    "lodash": "4.18.1",
+    "uuid": "11.1.1",
+    "ws": "8.21.0"
+  },
+  "engines": { "node": ">=20" }
+}

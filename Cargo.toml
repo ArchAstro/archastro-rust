@@ -1,0 +1,44 @@
+[package]
+name = "archastro"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Official Rust SDK for the ArchAstro platform"
+license = "MIT"
+repository = "https://github.com/ArchAstro/archastro-rust"
+keywords = ["archastro", "sdk", "api", "sse", "phoenix"]
+categories = ["api-bindings", "web-programming::http-client", "web-programming::websocket"]
+include = ["/src/**", "/tests/**", "/Cargo.toml", "/README.md", "/LICENSE"]
+
+[features]
+default = ["rustls-tls", "blocking"]
+rustls-tls = ["reqwest/rustls-tls", "tokio-tungstenite/rustls-tls-webpki-roots"]
+native-tls = ["reqwest/native-tls", "tokio-tungstenite/native-tls"]
+blocking = []
+
+[dependencies]
+async-trait = "0.1.89"
+chrono = { version = "0.4.41", features = ["serde"] }
+futures-core = "0.3.31"
+futures-util = "0.3.31"
+reqwest = { version = "0.12.24", default-features = false, features = ["json", "stream"] }
+reqwest-eventsource = "0.6.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+serde_urlencoded = "0.7.1"
+thiserror = "2.0.17"
+tokio = { version = "1.48.0", features = ["macros", "rt-multi-thread", "sync", "time", "net"] }
+tokio-stream = { version = "0.1.17", features = ["sync"] }
+tokio-tungstenite = { version = "0.30.0", default-features = false, features = ["connect", "url"] }
+url = "2.5.7"
+
+[dev-dependencies]
+httpmock = "0.8.2"
+serial_test = "3.2.0"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
