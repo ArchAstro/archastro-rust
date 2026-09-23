@@ -54,7 +54,8 @@ jobs:
           npm install --package-lock-only --ignore-scripts
 
       - name: Audit JS tooling dependencies
-        run: npm audit --audit-level=moderate
+        # Same allowlist as CI (audit-ci.jsonc), but fail on moderate too.
+        run: npx --yes audit-ci@7.1.0 --config audit-ci.jsonc --moderate
 
       - name: Regenerate SDK
         env:

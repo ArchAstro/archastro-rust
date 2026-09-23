@@ -1,0 +1,16 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  // Fail on high-severity advisories in the JS tooling (sdk-generator,
+  // channel-harness, Prism). CLI flags such as --moderate override this.
+  "high": true,
+  "allowlist": [
+    // @faker-js/faker 5.5.3: helpers.fake can execute code from an untrusted
+    // template. It reaches us only through Prism -> @stoplight/http-spec ->
+    // postman-collection, and every postman-collection release pins that
+    // faker; overriding it crashes Prism at startup. Prism runs as a local
+    // contract-test mock fed only our own OpenAPI spec, never a Postman
+    // collection, so no untrusted template reaches helpers.fake. Remove this
+    // entry once postman-collection ships a patched faker.
+    "GHSA-qxc2-j82w-r537"
+  ]
+}
