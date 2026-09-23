@@ -6,7 +6,7 @@
     "regenerate": "bash scripts/regenerate_sdk.sh"
   },
   "devDependencies": {
-    "@archastro/channel-harness": "^0.7.1",
+    "@archastro/channel-harness": "latest",
     "@archastro/sdk-generator": "latest",
     "@stoplight/prism-cli": "5.16.0"
   },
