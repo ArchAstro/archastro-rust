@@ -27,7 +27,8 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: npm audit --audit-level=high
+      # High-severity gate with a documented allowlist; see audit-ci.jsonc.
+      - run: npx --yes audit-ci@7.1.0 --config audit-ci.jsonc
       - run: cargo fmt --all -- --check
       - run: cargo clippy --all-features --all-targets -- -D warnings
       - run: cargo test --all-features --locked

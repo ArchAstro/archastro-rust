@@ -1,0 +1,134 @@
+name: Regenerate SDK
+
+# Manually trigger from the Actions tab to pull the latest spec from
+# archastro-openapi and re-run @archastro/sdk-generator. If anything
+# changes, the workflow force-pushes to a stable branch and opens (or
+# updates) a PR to main for review.
+#
+# No build/test step here — the PR's own CI runs them.
+
+on:
+  workflow_dispatch:
+    inputs:
+      openapi_ref:
+        description: archastro-openapi git ref to pull spec from
+        required: false
+        default: main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  AUTO_BRANCH: auto/regenerate-sdk
+  GENERATED_PATHS: package.json package-lock.json src tests specs
+
+jobs:
+  regenerate:
+    name: Regenerate + open PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24.18"
+          cache: npm
+
+      # regenerate_sdk.sh finishes with `cargo fmt --all`.
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Install latest SDK tooling
+        run: |
+          set -euo pipefail
+          npm install --ignore-scripts --save-dev \
+            @archastro/sdk-generator@latest \
+            @archastro/channel-harness@latest
+          npm pkg set \
+            devDependencies.@archastro/sdk-generator=latest \
+            devDependencies.@archastro/channel-harness=latest
+          npm install --package-lock-only --ignore-scripts
+
+      - name: Audit JS tooling dependencies
+        # Same allowlist as CI (audit-ci.jsonc), but fail on moderate too.
+        run: npx --yes audit-ci@7.1.0 --config audit-ci.jsonc --moderate
+
+      - name: Regenerate SDK
+        env:
+          ARCHASTRO_OPENAPI_REF: ${{ inputs.openapi_ref }}
+        run: ./scripts/regenerate_sdk.sh
+
+      - name: Detect changes
+        id: diff
+        run: |
+          # GENERATED_PATHS is a space-separated list; split it on purpose.
+          # shellcheck disable=SC2086
+          if [ -z "$(git status --porcelain $GENERATED_PATHS)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes from regeneration; nothing to do."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            # shellcheck disable=SC2086
+            git status --short $GENERATED_PATHS
+          fi
+
+      - name: Resolve generator version
+        if: steps.diff.outputs.changed == 'true'
+        id: gen
+        run: |
+          set -euo pipefail
+          resolved=$(node -p "require('./node_modules/@archastro/sdk-generator/package.json').version")
+          echo "version=$resolved" >> "$GITHUB_OUTPUT"
+
+      - name: Commit + force-push to ${{ env.AUTO_BRANCH }}
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          REF: ${{ inputs.openapi_ref }}
+          GEN_VERSION: ${{ steps.gen.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$AUTO_BRANCH"
+          # shellcheck disable=SC2086
+          git add $GENERATED_PATHS
+          git commit -m "chore(sdk): regenerate from archastro-openapi@$REF (generator $GEN_VERSION)"
+          git push --force-with-lease origin "$AUTO_BRANCH"
+
+      - name: Open or update PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REF: ${{ inputs.openapi_ref }}
+          GEN_VERSION: ${{ steps.gen.outputs.version }}
+        run: |
+          set -euo pipefail
+          # shellcheck disable=SC2086
+          file_count=$(git diff --name-only HEAD~1 HEAD -- $GENERATED_PATHS | wc -l | tr -d ' ')
+          body=$(cat <<BODY
+          Automated SDK regeneration.
+
+          - **archastro-openapi ref**: \`$REF\`
+          - **generator version**: \`$GEN_VERSION\` resolved from npm latest and locked in package-lock.json
+          - **changed files**: $file_count
+
+          Review the diff carefully — generator output changes can be subtle. The PR's CI runs rustfmt, clippy, tests, and the full contract suite.
+          BODY
+          )
+
+          existing=$(gh pr list --head "$AUTO_BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            echo "Updating PR #$existing"
+            gh pr edit "$existing" --body "$body"
+          else
+            echo "Opening new PR"
+            gh pr create \
+              --base main \
+              --head "$AUTO_BRANCH" \
+              --title "chore(sdk): regenerate from openapi@$REF" \
+              --body "$body"
+          fi
