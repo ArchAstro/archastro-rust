@@ -6854,6 +6854,7 @@
           },
           "image_url": "https://example.com",
           "image_width": 1,
+          "key": "string",
           "media_type": "application/json",
           "name": "Example Name",
           "object": {},
@@ -6951,6 +6952,12 @@
             "example": 1,
             "nullable": true,
             "type": "integer"
+          },
+          "key": {
+            "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+            "example": "string",
+            "nullable": true,
+            "type": "string"
           },
           "media_type": {
             "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -7951,6 +7958,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -8161,6 +8169,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -8611,6 +8620,7 @@
                   },
                   "image_url": "https://example.com",
                   "image_width": 1,
+                  "key": "string",
                   "media_type": "application/json",
                   "name": "Example Name",
                   "object": {},
@@ -9427,6 +9437,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -9637,6 +9648,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -10493,6 +10505,7 @@
                   },
                   "image_url": "https://example.com",
                   "image_width": 1,
+                  "key": "string",
                   "media_type": "application/json",
                   "name": "Example Name",
                   "object": {},
@@ -10656,6 +10669,7 @@
                 },
                 "image_url": "https://example.com",
                 "image_width": 1,
+                "key": "string",
                 "media_type": "application/json",
                 "name": "Example Name",
                 "object": {},
@@ -11222,6 +11236,7 @@
                   },
                   "image_url": "https://example.com",
                   "image_width": 1,
+                  "key": "string",
                   "media_type": "application/json",
                   "name": "Example Name",
                   "object": {},
@@ -11432,6 +11447,7 @@
                   },
                   "image_url": "https://example.com",
                   "image_width": 1,
+                  "key": "string",
                   "media_type": "application/json",
                   "name": "Example Name",
                   "object": {},
@@ -15443,6 +15459,7 @@
               },
               "image_url": "https://example.com",
               "image_width": 1,
+              "key": "string",
               "media_type": "application/json",
               "name": "Example Name",
               "object": {},
@@ -15578,6 +15595,7 @@
                 },
                 "image_url": "https://example.com",
                 "image_width": 1,
+                "key": "string",
                 "media_type": "application/json",
                 "name": "Example Name",
                 "object": {},
@@ -15904,6 +15922,7 @@
                   },
                   "image_url": "https://example.com",
                   "image_width": 1,
+                  "key": "string",
                   "media_type": "application/json",
                   "name": "Example Name",
                   "object": {},
@@ -16750,6 +16769,7 @@
                   },
                   "image_url": "https://example.com",
                   "image_width": 1,
+                  "key": "string",
                   "media_type": "application/json",
                   "name": "Example Name",
                   "object": {},
@@ -21617,6 +21637,30 @@
         ],
         "type": "object"
       },
+      "TeamDeleteImpactResponse": {
+        "description": "The stored custom-object rows that a Team deletion will physically remove.",
+        "example": {
+          "custom_object_count": 1,
+          "custom_objects_physically_deleted": true
+        },
+        "properties": {
+          "custom_object_count": {
+            "description": "All custom-object rows owned by the Team, including soft-deleted rows.",
+            "example": 1,
+            "type": "integer"
+          },
+          "custom_objects_physically_deleted": {
+            "description": "Whether Team deletion physically deletes these rows; no restore is provided.",
+            "example": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "custom_object_count",
+          "custom_objects_physically_deleted"
+        ],
+        "type": "object"
+      },
       "TeamInvite": {
         "description": "A team invite containing a short alphanumeric code that other users can present to join the team.",
         "example": {
@@ -22549,6 +22593,7 @@
                 },
                 "image_url": "https://example.com",
                 "image_width": 1,
+                "key": "string",
                 "media_type": "application/json",
                 "name": "Example Name",
                 "object": {},
@@ -23073,7 +23118,7 @@
             "type": "string"
           },
           "kind": {
-            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` is an explicit user-thread creation option; mirror kinds are server-derived.",
+            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"feed\"` for a post feed with inline replies, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` and `feed` are explicit creation options; mirror kinds are server-derived.",
             "example": "string",
             "nullable": true,
             "type": "string"
@@ -23188,6 +23233,7 @@
                   },
                   "image_url": "https://example.com",
                   "image_width": 1,
+                  "key": "string",
                   "media_type": "application/json",
                   "name": "Example Name",
                   "object": {},
@@ -23454,6 +23500,7 @@
               },
               "image_url": "https://example.com",
               "image_width": 1,
+              "key": "string",
               "media_type": "application/json",
               "name": "Example Name",
               "object": {},
@@ -34188,9 +34235,10 @@
                         "type": "string"
                       },
                       "kind": {
-                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. Mirror kinds remain server-derived and cannot be selected by callers.",
+                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. `feed` is accepted for any owner and renders the thread as a post feed: message lists return top-level posts with their newest replies inline, and agent responses attach to the root post. Mirror kinds remain server-derived and cannot be selected by callers.",
                         "enum": [
-                          "personal"
+                          "personal",
+                          "feed"
                         ],
                         "example": "personal",
                         "type": "string"
@@ -34681,6 +34729,7 @@
             "application/json": {
               "schema": {
                 "example": {
+                  "attribution": {},
                   "context": {},
                   "messages": [
                     {
@@ -34730,6 +34779,11 @@
                   "session_id": "string"
                 },
                 "properties": {
+                  "attribution": {
+                    "description": "Optional caller tags recorded on the LLM-call accounting row. Allowed keys: `task_id` (max 64 chars), `work_id` (max 64), `agent_kind` (one of `worker`, `one_off`, `subagent`, `overseer`, `task_reviewer`, `interactive`, `daemon_job`), `agent_id` (max 64), `client` (max 32). Anything else is a 400.",
+                    "example": {},
+                    "type": "object"
+                  },
                   "context": {
                     "description": "Key-value map used to resolve template variables in message content. Omit if messages contain no templates.",
                     "example": {},
@@ -35084,6 +35138,9 @@
           "402": {
             "description": "Payment required — plan does not allow this feature"
           },
+          "403": {
+            "description": "Forbidden — invalid billing session token"
+          },
           "422": {
             "description": "Validation failed"
           }
@@ -35105,6 +35162,7 @@
             "application/json": {
               "schema": {
                 "example": {
+                  "attribution": {},
                   "context": {},
                   "messages": [
                     {
@@ -35153,6 +35211,11 @@
                   "session_id": "string"
                 },
                 "properties": {
+                  "attribution": {
+                    "description": "Optional caller tags recorded on the LLM-call accounting row. Allowed keys: `task_id` (max 64 chars), `work_id` (max 64), `agent_kind` (one of `worker`, `one_off`, `subagent`, `overseer`, `task_reviewer`, `interactive`, `daemon_job`), `agent_id` (max 64), `client` (max 32). Anything else is a 400.",
+                    "example": {},
+                    "type": "object"
+                  },
                   "context": {
                     "description": "Key-value map used to resolve template variables in message content. Omit if messages contain no templates.",
                     "example": {},
@@ -35522,6 +35585,9 @@
           },
           "402": {
             "description": "Payment required — plan does not allow this feature"
+          },
+          "403": {
+            "description": "Forbidden — invalid billing session token"
           }
         },
         "summary": "Stream a chat completion",
@@ -35626,7 +35692,7 @@
                         },
                         "properties": {
                           "capabilities": {
-                            "description": "Machine-readable model capabilities. `\"image\"` marks image-input chat, `\"search\"` marks built-in web search, and `\"thinking\"` marks models with configurable reasoning. Empty when the catalog entry declares no special capabilities.",
+                            "description": "Machine-readable model capabilities. `\"image\"` marks image-input chat, `\"search\"` marks built-in web search, `\"temperature\"` marks models that accept the temperature generation parameter, and `\"thinking\"` marks models with configurable reasoning. Empty when the catalog entry declares no special capabilities.",
                             "example": [
                               "image"
                             ],
@@ -35634,6 +35700,7 @@
                               "enum": [
                                 "image",
                                 "search",
+                                "temperature",
                                 "thinking"
                               ],
                               "type": "string"
@@ -36107,7 +36174,7 @@
                         },
                         "properties": {
                           "capabilities": {
-                            "description": "Machine-readable model capabilities. `\"image\"` marks image-input chat, `\"search\"` marks built-in web search, and `\"thinking\"` marks models with configurable reasoning. Empty when the catalog entry declares no special capabilities.",
+                            "description": "Machine-readable model capabilities. `\"image\"` marks image-input chat, `\"search\"` marks built-in web search, `\"temperature\"` marks models that accept the temperature generation parameter, and `\"thinking\"` marks models with configurable reasoning. Empty when the catalog entry declares no special capabilities.",
                             "example": [
                               "image"
                             ],
@@ -36115,6 +36182,7 @@
                               "enum": [
                                 "image",
                                 "search",
+                                "temperature",
                                 "thinking"
                               ],
                               "type": "string"
@@ -36565,7 +36633,7 @@
                         },
                         "properties": {
                           "capabilities": {
-                            "description": "Machine-readable model capabilities. `\"image\"` marks image-input chat, `\"search\"` marks built-in web search, and `\"thinking\"` marks models with configurable reasoning. Empty when the catalog entry declares no special capabilities.",
+                            "description": "Machine-readable model capabilities. `\"image\"` marks image-input chat, `\"search\"` marks built-in web search, `\"temperature\"` marks models that accept the temperature generation parameter, and `\"thinking\"` marks models with configurable reasoning. Empty when the catalog entry declares no special capabilities.",
                             "example": [
                               "image"
                             ],
@@ -36573,6 +36641,7 @@
                               "enum": [
                                 "image",
                                 "search",
+                                "temperature",
                                 "thinking"
                               ],
                               "type": "string"
@@ -36648,6 +36717,99 @@
           }
         },
         "summary": "List available image generation models",
+        "x-auth": [
+          "publishable_key",
+          "bearer"
+        ]
+      }
+    },
+    "/api/v1/ai/session_token": {
+      "post": {
+        "operationId": "post_api_v1_ai_session_token",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "entitlement": "llm_calls",
+                  "restrictions": {},
+                  "ttl": 1,
+                  "user_id": "string"
+                },
+                "properties": {
+                  "entitlement": {
+                    "enum": [
+                      "llm_calls",
+                      "run_automation"
+                    ],
+                    "example": "llm_calls",
+                    "type": "string"
+                  },
+                  "restrictions": {
+                    "default": {},
+                    "example": {},
+                    "type": "object"
+                  },
+                  "ttl": {
+                    "default": 300,
+                    "example": 1,
+                    "type": "integer"
+                  },
+                  "user_id": {
+                    "example": "string",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user_id"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "expires_at": "string",
+                    "token": "string"
+                  },
+                  "properties": {
+                    "expires_at": {
+                      "example": "string",
+                      "type": "string"
+                    },
+                    "token": {
+                      "example": "string",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token",
+                    "expires_at"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Invalid parameters"
+          }
+        },
+        "summary": "Mint a principal-bound billing session token",
         "x-auth": [
           "publishable_key",
           "bearer"
@@ -36920,6 +37082,7 @@
                   "description": "An example description.",
                   "file": {
                     "data": "string",
+                    "encoding": "base64",
                     "filename": "string",
                     "mime_type": "application/json"
                   },
@@ -36940,13 +37103,23 @@
                     "description": "Replacement file payload. Omit to leave the current file unchanged.",
                     "example": {
                       "data": "string",
+                      "encoding": "base64",
                       "filename": "string",
                       "mime_type": "application/json"
                     },
                     "properties": {
                       "data": {
-                        "description": "Base64-encoded binary content.",
+                        "description": "File content encoded according to file.encoding.",
                         "example": "string",
+                        "type": "string"
+                      },
+                      "encoding": {
+                        "description": "Data encoding; defaults to base64. Use utf8 for script-generated text.",
+                        "enum": [
+                          "base64",
+                          "utf8"
+                        ],
+                        "example": "base64",
                         "type": "string"
                       },
                       "filename": {
@@ -41224,7 +41397,7 @@
         ]
       },
       "put": {
-        "description": "Updates the fields of an existing custom object and returns the updated\nobject along with its new version number. The authenticated viewer must have\npermission to modify the object.\n\nYou may supply `fields` (a full or partial key-value map to merge into the\nobject), `field_ops` (granular array operations per field), `acl`, or any\ncompatible combination. The same field name must not appear in both\n`fields` and `field_ops`, which returns 422. Returns 404 if the object does\nnot exist or has been deleted.\n",
+        "description": "Updates the fields of an existing custom object and returns the updated\nobject along with its new version number. The authenticated viewer must have\npermission to modify the object.\n\nYou may supply `fields` (a full or partial key-value map to merge into the\nobject), `field_ops` (granular array operations per field), `acl`, or any\ncompatible combination. The same field name must not appear in both\n`fields` and `field_ops`, which returns 422. Returns 404 if the object does\nnot exist or has been deleted.\n\nUse `expected_version` for optimistic concurrency: if the object's current\n`aggregate_version` does not match, the request returns 409 and does not\nretry the caller write. Omit it to keep the existing OCC merge retry.\n",
         "operationId": "put_api_v1_custom_objects__object",
         "parameters": [
           {
@@ -41271,6 +41444,7 @@
                       }
                     ]
                   },
+                  "expected_version": 1,
                   "field_ops": {},
                   "fields": {},
                   "type": "string"
@@ -41448,6 +41622,11 @@
                       }
                     },
                     "type": "object"
+                  },
+                  "expected_version": {
+                    "description": "Version number the caller expects to be current. If the object's actual current version does not match, the request returns 409 to signal a concurrent modification. Omit to skip optimistic locking and keep the existing OCC merge retry.",
+                    "example": 1,
+                    "type": "integer"
                   },
                   "field_ops": {
                     "description": "Granular array operations to apply per field (e.g. append, prepend, remove). A field must not appear in both `fields` and `field_ops`.",
@@ -41831,6 +42010,9 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "409": {
+            "description": "Conflict - custom object version changed"
           },
           "422": {
             "description": "Validation failed"
@@ -47051,6 +47233,161 @@
         ]
       }
     },
+    "/api/v1/orgs/{org}/linked_accounts": {
+      "get": {
+        "description": "Returns the GitHub login each user in the organization signed in with, so\nclients can tell that a pull request's author and a Platform user are the\nsame person. Users who never signed in with GitHub are absent. Any viewer\nacting within the organization can list them; other viewers get 404.\n\nPass `user` to look up specific users instead of listing the whole\norganization. Results are ordered by user and paginated forward with\n`after_cursor`.\n",
+        "operationId": "get_api_v1_orgs__org_linked_accounts",
+        "parameters": [
+          {
+            "description": "Organization ID (`org_...`) whose linked accounts should be listed.",
+            "example": "string",
+            "in": "path",
+            "name": "org",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Up to 100 user IDs (`usr_...`) to look up. Omit to list every user in the organization. Users in the list who are outside the organization or have no linked account are absent.",
+            "example": [
+              "string"
+            ],
+            "in": "query",
+            "name": "user",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Maximum accounts returned, from 1 to 100.",
+            "example": 1,
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Opaque cursor for the next page.",
+            "example": "string",
+            "in": "query",
+            "name": "after_cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "One page of the organization's linked accounts.",
+                  "example": {
+                    "after_cursor": "string",
+                    "before_cursor": "string",
+                    "data": [
+                      {
+                        "account_id": "octocat",
+                        "provider": "github",
+                        "user": "string"
+                      }
+                    ],
+                    "has_more": true
+                  },
+                  "properties": {
+                    "after_cursor": {
+                      "example": "string",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "before_cursor": {
+                      "description": "Always null; pagination is forward-only.",
+                      "example": "string",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "data": {
+                      "description": "Linked accounts, by user.",
+                      "example": [
+                        {
+                          "account_id": "octocat",
+                          "provider": "github",
+                          "user": "string"
+                        }
+                      ],
+                      "items": {
+                        "description": "An account on another service that a user proved is theirs by signing in with it.",
+                        "example": {
+                          "account_id": "octocat",
+                          "provider": "github",
+                          "user": "string"
+                        },
+                        "properties": {
+                          "account_id": {
+                            "description": "The service's name for the account: the login, for GitHub.",
+                            "example": "octocat",
+                            "type": "string"
+                          },
+                          "provider": {
+                            "description": "Service the account is on. Currently always `\"github\"`.",
+                            "example": "github",
+                            "type": "string"
+                          },
+                          "user": {
+                            "description": "User ID (`usr_...`) the account belongs to.",
+                            "example": "string",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "user",
+                          "provider",
+                          "account_id"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "example": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Invalid limit or user IDs; Invalid cursor"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Organization not found"
+          }
+        },
+        "summary": "List an organization's linked accounts",
+        "x-auth": [
+          "publishable_key",
+          "bearer"
+        ]
+      }
+    },
     "/api/v1/orgs/{org}/threads": {
       "get": {
         "description": "Returns org-visibility threads for the specified organization. Every member\nof the organization can list these threads; they require no team membership.\nApp-scoped developer tokens for the organization's app can list them too.\n",
@@ -47171,6 +47508,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -47582,6 +47920,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -47990,6 +48329,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -48514,7 +48854,7 @@
                             "type": "string"
                           },
                           "kind": {
-                            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` is an explicit user-thread creation option; mirror kinds are server-derived.",
+                            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"feed\"` for a post feed with inline replies, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` and `feed` are explicit creation options; mirror kinds are server-derived.",
                             "example": "string",
                             "nullable": true,
                             "type": "string"
@@ -48624,6 +48964,7 @@
                                   },
                                   "image_url": "https://example.com",
                                   "image_width": 1,
+                                  "key": "string",
                                   "media_type": "application/json",
                                   "name": "Example Name",
                                   "object": {},
@@ -49031,6 +49372,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -49084,6 +49426,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -49221,6 +49564,12 @@
                                       "example": 1,
                                       "nullable": true,
                                       "type": "integer"
+                                    },
+                                    "key": {
+                                      "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                      "example": "string",
+                                      "nullable": true,
+                                      "type": "string"
                                     },
                                     "media_type": {
                                       "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -49701,6 +50050,7 @@
                                       },
                                       "image_url": "https://example.com",
                                       "image_width": 1,
+                                      "key": "string",
                                       "media_type": "application/json",
                                       "name": "Example Name",
                                       "object": {},
@@ -52397,9 +52747,10 @@
                         "type": "string"
                       },
                       "kind": {
-                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. Mirror kinds remain server-derived and cannot be selected by callers.",
+                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. `feed` is accepted for any owner and renders the thread as a post feed: message lists return top-level posts with their newest replies inline, and agent responses attach to the root post. Mirror kinds remain server-derived and cannot be selected by callers.",
                         "enum": [
-                          "personal"
+                          "personal",
+                          "feed"
                         ],
                         "example": "personal",
                         "type": "string"
@@ -63270,6 +63621,50 @@
         ]
       }
     },
+    "/api/v1/teams/{team}/dependents": {
+      "get": {
+        "description": "Returns the number of stored custom-object rows that deleting this Team will\nphysically delete. The count includes rows hidden after ordinary soft\ndeletion. This read-only preview does not delete or restore data.\n",
+        "operationId": "get_api_v1_teams__team_dependents",
+        "parameters": [
+          {
+            "description": "Team ID (`team_...`) to inspect.",
+            "example": "string",
+            "in": "path",
+            "name": "team",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamDeleteImpactResponse"
+                }
+              }
+            },
+            "description": "Stored custom-object rows and the existing physical-deletion contract."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - deletion permission or app scope required"
+          },
+          "404": {
+            "description": "Team not found"
+          }
+        },
+        "summary": "Preview Team deletion impact",
+        "x-auth": [
+          "publishable_key",
+          "bearer"
+        ]
+      }
+    },
     "/api/v1/teams/{team}/invite": {
       "post": {
         "description": "Generates a new invite code for the specified team. The authenticated user\nmust be a member of the team with the `owner` or `admin` role.\n\nThe returned code is a short alphanumeric string that other users can\npresent to join the team. Each call produces a new code; previously issued\ncodes are not invalidated by this request. Codes expire after seven days.\n\nSharing a code intentionally grants membership across organizations within\nthe same application, including access to objects shared with team members.\nTreat it as a bearer credential. Revoke an individual code with\nDELETE /api/v1/teams/:team/invite/:code before issuing a replacement.\nRevocation does not remove existing members or their access.\n",
@@ -70965,6 +71360,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -71376,6 +71772,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -71784,6 +72181,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -72308,7 +72706,7 @@
                             "type": "string"
                           },
                           "kind": {
-                            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` is an explicit user-thread creation option; mirror kinds are server-derived.",
+                            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"feed\"` for a post feed with inline replies, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` and `feed` are explicit creation options; mirror kinds are server-derived.",
                             "example": "string",
                             "nullable": true,
                             "type": "string"
@@ -72418,6 +72816,7 @@
                                   },
                                   "image_url": "https://example.com",
                                   "image_width": 1,
+                                  "key": "string",
                                   "media_type": "application/json",
                                   "name": "Example Name",
                                   "object": {},
@@ -72825,6 +73224,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -72878,6 +73278,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -73015,6 +73416,12 @@
                                       "example": 1,
                                       "nullable": true,
                                       "type": "integer"
+                                    },
+                                    "key": {
+                                      "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                      "example": "string",
+                                      "nullable": true,
+                                      "type": "string"
                                     },
                                     "media_type": {
                                       "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -73495,6 +73902,7 @@
                                       },
                                       "image_url": "https://example.com",
                                       "image_width": 1,
+                                      "key": "string",
                                       "media_type": "application/json",
                                       "name": "Example Name",
                                       "object": {},
@@ -76191,9 +76599,10 @@
                         "type": "string"
                       },
                       "kind": {
-                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. Mirror kinds remain server-derived and cannot be selected by callers.",
+                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. `feed` is accepted for any owner and renders the thread as a post feed: message lists return top-level posts with their newest replies inline, and agent responses attach to the root post. Mirror kinds remain server-derived and cannot be selected by callers.",
                         "enum": [
-                          "personal"
+                          "personal",
+                          "feed"
                         ],
                         "example": "personal",
                         "type": "string"
@@ -78150,7 +78559,7 @@
     },
     "/api/v1/threads/{thread}/messages": {
       "get": {
-        "description": "Returns a cursor-paginated list of messages belonging to the specified thread,\nordered from oldest to newest. Supply `before_cursor`, `after_cursor`, or both\nto page through or bound the result set; omit both to receive the most recent page.\nSupply `anchor` and `direction` to fetch a window before, after, or around a\nspecific message. Use `anchor=last_matching&anchor_agent_mode=embedded` to\nresolve the anchor from the latest embedded-agent message, and add\n`anchor_agent` to scope that resolution to a single sender agent.\nSupply `metadata` as a JSON-encoded structured expression to filter message\nmetadata before cursor pagination or anchored window limits are applied.\n\nThe authenticated user must have access to the thread's owner (workspace or user).\nA 403 is returned if the thread exists but is not accessible to the caller; a 404\nis returned if the thread does not exist or is not visible to the authenticated user.\n\nPass `include_reply_counts: true` to annotate each message with the number of\nthreaded replies it has received. This adds a small amount of latency and should\nbe omitted when reply counts are not needed.\n",
+        "description": "Returns a cursor-paginated list of messages belonging to the specified thread,\nordered from oldest to newest. Supply `before_cursor`, `after_cursor`, or both\nto page through or bound the result set; omit both to receive the most recent page.\nSupply `anchor` and `direction` to fetch a window before, after, or around a\nspecific message. Use `anchor=last_matching&anchor_agent_mode=embedded` to\nresolve the anchor from the latest embedded-agent message, and add\n`anchor_agent` to scope that resolution to a single sender agent.\nSupply `metadata` as a JSON-encoded structured expression to filter message\nmetadata before cursor pagination or anchored window limits are applied.\n\nThe authenticated user must have access to the thread's owner (workspace or user).\nA 403 is returned if the thread exists but is not accessible to the caller; a 404\nis returned if the thread does not exist or is not visible to the authenticated user.\n\nThreads with `kind: feed` return only top-level posts, each with its newest\nreplies inline under `replies` and reply cursors for paging the rest.\n\nPass `include_reply_counts: true` to annotate each message with the number of\nthreaded replies it has received. This adds a small amount of latency and should\nbe omitted when reply counts are not needed.\n",
         "operationId": "get_api_v1_threads__thread_messages",
         "parameters": [
           {
@@ -78449,6 +78858,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -78604,6 +79014,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -78772,6 +79183,7 @@
                                   },
                                   "image_url": "https://example.com",
                                   "image_width": 1,
+                                  "key": "string",
                                   "media_type": "application/json",
                                   "name": "Example Name",
                                   "object": {},
@@ -78919,6 +79331,7 @@
                                   },
                                   "image_url": "https://example.com",
                                   "image_width": 1,
+                                  "key": "string",
                                   "media_type": "application/json",
                                   "name": "Example Name",
                                   "object": {},
@@ -79054,6 +79467,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -79468,6 +79882,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -79521,6 +79936,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -79658,6 +80074,12 @@
                                       "example": 1,
                                       "nullable": true,
                                       "type": "integer"
+                                    },
+                                    "key": {
+                                      "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                      "example": "string",
+                                      "nullable": true,
+                                      "type": "string"
                                     },
                                     "media_type": {
                                       "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -80138,6 +80560,7 @@
                                       },
                                       "image_url": "https://example.com",
                                       "image_width": 1,
+                                      "key": "string",
                                       "media_type": "application/json",
                                       "name": "Example Name",
                                       "object": {},
@@ -86808,6 +87231,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -87219,6 +87643,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -87627,6 +88052,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -88151,7 +88577,7 @@
                             "type": "string"
                           },
                           "kind": {
-                            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` is an explicit user-thread creation option; mirror kinds are server-derived.",
+                            "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"feed\"` for a post feed with inline replies, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` and `feed` are explicit creation options; mirror kinds are server-derived.",
                             "example": "string",
                             "nullable": true,
                             "type": "string"
@@ -88261,6 +88687,7 @@
                                   },
                                   "image_url": "https://example.com",
                                   "image_width": 1,
+                                  "key": "string",
                                   "media_type": "application/json",
                                   "name": "Example Name",
                                   "object": {},
@@ -88668,6 +89095,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -88721,6 +89149,7 @@
                                     },
                                     "image_url": "https://example.com",
                                     "image_width": 1,
+                                    "key": "string",
                                     "media_type": "application/json",
                                     "name": "Example Name",
                                     "object": {},
@@ -88858,6 +89287,12 @@
                                       "example": 1,
                                       "nullable": true,
                                       "type": "integer"
+                                    },
+                                    "key": {
+                                      "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                      "example": "string",
+                                      "nullable": true,
+                                      "type": "string"
                                     },
                                     "media_type": {
                                       "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -89338,6 +89773,7 @@
                                       },
                                       "image_url": "https://example.com",
                                       "image_width": 1,
+                                      "key": "string",
                                       "media_type": "application/json",
                                       "name": "Example Name",
                                       "object": {},
@@ -92034,9 +92470,10 @@
                         "type": "string"
                       },
                       "kind": {
-                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. Mirror kinds remain server-derived and cannot be selected by callers.",
+                        "description": "Optional behavioral subtype. `personal` is accepted only for a user-owned thread and limits membership to that user and agents currently owned by them. `feed` is accepted for any owner and renders the thread as a post feed: message lists return top-level posts with their newest replies inline, and agent responses attach to the root post. Mirror kinds remain server-derived and cannot be selected by callers.",
                         "enum": [
-                          "personal"
+                          "personal",
+                          "feed"
                         ],
                         "example": "personal",
                         "type": "string"
@@ -96975,6 +97412,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -97185,6 +97623,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -97635,6 +98074,7 @@
                       },
                       "image_url": "https://example.com",
                       "image_width": 1,
+                      "key": "string",
                       "media_type": "application/json",
                       "name": "Example Name",
                       "object": {},
@@ -98432,6 +98872,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -98642,6 +99083,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -103215,6 +103657,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -103362,6 +103805,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -103497,6 +103941,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -103911,6 +104356,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -103964,6 +104410,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -104101,6 +104548,12 @@
                                 "example": 1,
                                 "nullable": true,
                                 "type": "integer"
+                              },
+                              "key": {
+                                "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                "example": "string",
+                                "nullable": true,
+                                "type": "string"
                               },
                               "media_type": {
                                 "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -104581,6 +105034,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -105253,6 +105707,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -105777,7 +106232,7 @@
                         "type": "string"
                       },
                       "kind": {
-                        "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` is an explicit user-thread creation option; mirror kinds are server-derived.",
+                        "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"feed\"` for a post feed with inline replies, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` and `feed` are explicit creation options; mirror kinds are server-derived.",
                         "example": "string",
                         "nullable": true,
                         "type": "string"
@@ -105887,6 +106342,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -106294,6 +106750,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -106347,6 +106804,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -106484,6 +106942,12 @@
                                   "example": 1,
                                   "nullable": true,
                                   "type": "integer"
+                                },
+                                "key": {
+                                  "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                  "example": "string",
+                                  "nullable": true,
+                                  "type": "string"
                                 },
                                 "media_type": {
                                   "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -106964,6 +107428,7 @@
                                   },
                                   "image_url": "https://example.com",
                                   "image_width": 1,
+                                  "key": "string",
                                   "media_type": "application/json",
                                   "name": "Example Name",
                                   "object": {},
@@ -109919,6 +110384,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -110443,7 +110909,7 @@
                     "type": "string"
                   },
                   "kind": {
-                    "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` is an explicit user-thread creation option; mirror kinds are server-derived.",
+                    "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"feed\"` for a post feed with inline replies, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` and `feed` are explicit creation options; mirror kinds are server-derived.",
                     "example": "string",
                     "nullable": true,
                     "type": "string"
@@ -110553,6 +111019,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -110960,6 +111427,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -111013,6 +111481,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -111150,6 +111619,12 @@
                               "example": 1,
                               "nullable": true,
                               "type": "integer"
+                            },
+                            "key": {
+                              "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                              "example": "string",
+                              "nullable": true,
+                              "type": "string"
                             },
                             "media_type": {
                               "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -111630,6 +112105,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -114311,6 +114787,7 @@
                       },
                       "image_url": "https://example.com",
                       "image_width": 1,
+                      "key": "string",
                       "media_type": "application/json",
                       "name": "Example Name",
                       "object": {},
@@ -114461,6 +114938,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -114608,6 +115086,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -114743,6 +115222,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -115157,6 +115637,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -115210,6 +115691,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -115347,6 +115829,12 @@
                             "example": 1,
                             "nullable": true,
                             "type": "integer"
+                          },
+                          "key": {
+                            "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                            "example": "string",
+                            "nullable": true,
+                            "type": "string"
                           },
                           "media_type": {
                             "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -115827,6 +116315,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -116623,6 +117112,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -116833,6 +117323,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -117631,6 +118122,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -117841,6 +118333,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -122414,6 +122907,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -122561,6 +123055,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -122696,6 +123191,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -123110,6 +123606,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -123163,6 +123660,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -123300,6 +123798,12 @@
                                 "example": 1,
                                 "nullable": true,
                                 "type": "integer"
+                              },
+                              "key": {
+                                "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                "example": "string",
+                                "nullable": true,
+                                "type": "string"
                               },
                               "media_type": {
                                 "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -123780,6 +124284,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -124452,6 +124957,7 @@
                             },
                             "image_url": "https://example.com",
                             "image_width": 1,
+                            "key": "string",
                             "media_type": "application/json",
                             "name": "Example Name",
                             "object": {},
@@ -124976,7 +125482,7 @@
                         "type": "string"
                       },
                       "kind": {
-                        "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` is an explicit user-thread creation option; mirror kinds are server-derived.",
+                        "description": "Thread subtype: `\"standard\"` for ordinary threads, `\"personal\"` for a user-and-owned-agents roster, `\"feed\"` for a post feed with inline replies, `\"slack_mirror\"` for the membership-strict mirror of a Slack channel, or `\"slashwork_mirror\"` for the membership-strict mirror of a Slashwork group. `personal` and `feed` are explicit creation options; mirror kinds are server-derived.",
                         "example": "string",
                         "nullable": true,
                         "type": "string"
@@ -125086,6 +125592,7 @@
                               },
                               "image_url": "https://example.com",
                               "image_width": 1,
+                              "key": "string",
                               "media_type": "application/json",
                               "name": "Example Name",
                               "object": {},
@@ -125493,6 +126000,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -125546,6 +126054,7 @@
                                 },
                                 "image_url": "https://example.com",
                                 "image_width": 1,
+                                "key": "string",
                                 "media_type": "application/json",
                                 "name": "Example Name",
                                 "object": {},
@@ -125683,6 +126192,12 @@
                                   "example": 1,
                                   "nullable": true,
                                   "type": "integer"
+                                },
+                                "key": {
+                                  "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                                  "example": "string",
+                                  "nullable": true,
+                                  "type": "string"
                                 },
                                 "media_type": {
                                   "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -126163,6 +126678,7 @@
                                   },
                                   "image_url": "https://example.com",
                                   "image_width": 1,
+                                  "key": "string",
                                   "media_type": "application/json",
                                   "name": "Example Name",
                                   "object": {},
@@ -128905,6 +129421,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -129053,6 +129570,7 @@
                       },
                       "image_url": "https://example.com",
                       "image_width": 1,
+                      "key": "string",
                       "media_type": "application/json",
                       "name": "Example Name",
                       "object": {},
@@ -129459,6 +129977,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -129512,6 +130031,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -129649,6 +130169,12 @@
                           "example": 1,
                           "nullable": true,
                           "type": "integer"
+                        },
+                        "key": {
+                          "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                          "example": "string",
+                          "nullable": true,
+                          "type": "string"
                         },
                         "media_type": {
                           "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -130129,6 +130655,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -130566,6 +131093,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -130714,6 +131242,7 @@
                       },
                       "image_url": "https://example.com",
                       "image_width": 1,
+                      "key": "string",
                       "media_type": "application/json",
                       "name": "Example Name",
                       "object": {},
@@ -131120,6 +131649,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -131173,6 +131703,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -131310,6 +131841,12 @@
                           "example": 1,
                           "nullable": true,
                           "type": "integer"
+                        },
+                        "key": {
+                          "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                          "example": "string",
+                          "nullable": true,
+                          "type": "string"
                         },
                         "media_type": {
                           "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -131790,6 +132327,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -132567,6 +133105,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -132724,6 +133263,7 @@
                       },
                       "image_url": "https://example.com",
                       "image_width": 1,
+                      "key": "string",
                       "media_type": "application/json",
                       "name": "Example Name",
                       "object": {},
@@ -133130,6 +133670,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -133183,6 +133724,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -133320,6 +133862,12 @@
                           "example": 1,
                           "nullable": true,
                           "type": "integer"
+                        },
+                        "key": {
+                          "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                          "example": "string",
+                          "nullable": true,
+                          "type": "string"
                         },
                         "media_type": {
                           "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -133800,6 +134348,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
@@ -134159,6 +134708,7 @@
                     },
                     "image_url": "https://example.com",
                     "image_width": 1,
+                    "key": "string",
                     "media_type": "application/json",
                     "name": "Example Name",
                     "object": {},
@@ -134308,6 +134858,7 @@
                       },
                       "image_url": "https://example.com",
                       "image_width": 1,
+                      "key": "string",
                       "media_type": "application/json",
                       "name": "Example Name",
                       "object": {},
@@ -134714,6 +135265,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -134767,6 +135319,7 @@
                         },
                         "image_url": "https://example.com",
                         "image_width": 1,
+                        "key": "string",
                         "media_type": "application/json",
                         "name": "Example Name",
                         "object": {},
@@ -134904,6 +135457,12 @@
                           "example": 1,
                           "nullable": true,
                           "type": "integer"
+                        },
+                        "key": {
+                          "description": "For `structured_data` type, what the data is about as set by the sender (for example `\"pr:14963\"`), copied from the record so it can be read without `object`. Not unique. `null` when unset and on other types.",
+                          "example": "string",
+                          "nullable": true,
+                          "type": "string"
                         },
                         "media_type": {
                           "description": "The media category, e.g. `\"video\"` or `\"audio\"`. Present on `media` type only; omitted otherwise.",
@@ -135384,6 +135943,7 @@
                           },
                           "image_url": "https://example.com",
                           "image_width": 1,
+                          "key": "string",
                           "media_type": "application/json",
                           "name": "Example Name",
                           "object": {},
