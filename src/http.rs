@@ -50,11 +50,24 @@ impl RequestBuilder {
     }
 
     /// Send and decode a JSON response.
+    ///
+    /// A `204 No Content` or `205 Reset Content` reply with an empty body
+    /// decodes `T` from JSON `null`, so `()`, `Option<_>` and
+    /// `serde_json::Value` succeed. Any other empty body, or a `T` that
+    /// rejects `null`, is an `empty_response` API error.
     pub async fn send<T: DeserializeOwned>(self) -> Result<T> {
         let response = self.execute().await?;
         let status = response.status();
         let bytes = response.bytes().await?;
         if bytes.is_empty() {
+            if matches!(
+                status,
+                reqwest::StatusCode::NO_CONTENT | reqwest::StatusCode::RESET_CONTENT
+            ) {
+                if let Ok(value) = serde_json::from_value(Value::Null) {
+                    return Ok(value);
+                }
+            }
             return Err(Error::Api(ApiError {
                 status: status.as_u16(),
                 code: Some("empty_response".into()),
