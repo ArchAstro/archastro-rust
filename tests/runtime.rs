@@ -107,6 +107,85 @@ async fn api_errors_preserve_status_code_message_and_body() {
     }
 }
 
+#[derive(Debug, Deserialize)]
+#[allow(dead_code)]
+struct Deleted {
+    deleted: bool,
+    id: String,
+}
+
+fn assert_empty_response(error: Error, status: u16) {
+    match error {
+        Error::Api(error) => {
+            assert_eq!(error.status, status);
+            assert_eq!(error.code.as_deref(), Some("empty_response"));
+        }
+        other => panic!("unexpected error: {other:?}"),
+    }
+}
+
+#[tokio::test]
+async fn empty_no_content_bodies_decode_from_null_when_the_type_allows_it() {
+    let server = MockServer::start_async().await;
+    server
+        .mock_async(|when, then| {
+            when.method(DELETE).path("/no-content");
+            then.status(204);
+        })
+        .await;
+    server
+        .mock_async(|when, then| {
+            when.method(POST).path("/reset-content");
+            then.status(205);
+        })
+        .await;
+    server
+        .mock_async(|when, then| {
+            when.method(GET).path("/empty-ok");
+            then.status(200);
+        })
+        .await;
+    let client = Client::builder()
+        .base_url(server.base_url())
+        .build()
+        .unwrap();
+
+    // 204 and 205 with no body: types that accept JSON null decode.
+    client
+        .request(Method::DELETE, "/no-content")
+        .send::<()>()
+        .await
+        .unwrap();
+    let value = client
+        .request(Method::DELETE, "/no-content")
+        .send::<Value>()
+        .await
+        .unwrap();
+    assert_eq!(value, Value::Null);
+    let option = client
+        .request(Method::POST, "/reset-content")
+        .send::<Option<Deleted>>()
+        .await
+        .unwrap();
+    assert!(option.is_none());
+
+    // A required struct cannot come from null: still empty_response.
+    let error = client
+        .request(Method::DELETE, "/no-content")
+        .send::<Deleted>()
+        .await
+        .unwrap_err();
+    assert_empty_response(error, 204);
+
+    // A 200 that promises a body but sends none still errors.
+    let error = client
+        .request(Method::GET, "/empty-ok")
+        .send::<Value>()
+        .await
+        .unwrap_err();
+    assert_empty_response(error, 200);
+}
+
 #[tokio::test]
 async fn concurrent_unauthorized_requests_share_one_single_use_refresh() {
     let server = MockServer::start_async().await;
