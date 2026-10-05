@@ -11,6 +11,12 @@
     // contract-test mock fed only our own OpenAPI spec, never a Postman
     // collection, so no untrusted template reaches helpers.fake. Remove this
     // entry once postman-collection ships a patched faker.
-    "GHSA-qxc2-j82w-r537"
+    "GHSA-qxc2-j82w-r537",
+    // braces <= 3.0.3: deeply nested brace patterns exhaust the stack. No
+    // patched release exists (3.0.3 is the latest). It reaches us only through
+    // Prism -> chokidar, which expands the glob patterns Prism itself passes
+    // when watching our own local spec file; no untrusted pattern reaches
+    // braces. Remove this entry once braces ships a fix.
+    "GHSA-vfj7-8cjw-p6xm"
   ]
 }
