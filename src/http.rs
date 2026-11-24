@@ -38,8 +38,11 @@ impl RequestBuilder {
     }
 
     /// Serialize query parameters according to `application/x-www-form-urlencoded` rules.
+    ///
+    /// An array becomes one `key[]=item` pair per element, the same encoding
+    /// the TypeScript SDK sends; `null` values are left out.
     pub fn query(mut self, value: &impl Serialize) -> Result<Self> {
-        self.query = Some(serde_urlencoded::to_string(value)?);
+        self.query = Some(encode_query(serde_json::to_value(value)?)?);
         Ok(self)
     }
 
@@ -264,4 +267,49 @@ async fn checked(response: reqwest::Response) -> Result<reqwest::Response> {
         body,
     }
     .into())
+}
+
+/// Encode a params struct as a query string. Scalars are written as
+/// `key=value`; arrays as repeated `key[]=item`, matching the TypeScript SDK.
+fn encode_query(value: Value) -> Result<String> {
+    fn scalar(value: Value) -> String {
+        match value {
+            Value::String(text) => text,
+            other => other.to_string(),
+        }
+    }
+    let Value::Object(fields) = value else {
+        return Ok(serde_urlencoded::to_string(value)?);
+    };
+    let mut pairs: Vec<(String, String)> = Vec::new();
+    for (key, value) in fields {
+        match value {
+            Value::Null => {}
+            Value::Array(items) => {
+                let key = format!("{key}[]");
+                pairs.extend(items.into_iter().map(|item| (key.clone(), scalar(item))));
+            }
+            other => pairs.push((key, scalar(other))),
+        }
+    }
+    Ok(serde_urlencoded::to_string(pairs)?)
+}
+
+#[cfg(test)]
+mod query_tests {
+    use super::encode_query;
+    use serde_json::json;
+
+    #[test]
+    fn arrays_repeat_the_key_with_brackets() {
+        let query = encode_query(json!({ "tags": ["a b", "c"] })).expect("encodes");
+        assert_eq!(query, "tags%5B%5D=a+b&tags%5B%5D=c");
+    }
+
+    #[test]
+    fn scalars_are_plain_and_null_is_left_out() {
+        let query = encode_query(json!({ "limit": 5, "q": "x&y", "skip": null, "wide": true }))
+            .expect("encodes");
+        assert_eq!(query, "limit=5&q=x%26y&wide=true");
+    }
 }
