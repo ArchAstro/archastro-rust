@@ -57,8 +57,20 @@ fn ensure_prism() {
             .unwrap_or_else(|_| format!("{root}/node_modules/.bin/prism"));
         let spec = std::env::var("OPENAPI_SPEC_PATH")
             .unwrap_or_else(|_| format!("{root}/specs/platform-openapi.json"));
-        let child = Command::new(bin)
-            .args(["mock", &spec, "--port", prism_port(), "--host", "127.0.0.1"])
+        // Prism runs behind a proxy that turns `name[]=value` back into
+        // `name=value`: the SDK sends arrays in the bracket form Platform
+        // expects, but Prism looks query parameters up by their exact name.
+        let proxy = format!("{root}/tests/support/prism-proxy.mjs");
+        let child = Command::new("node")
+            .args([
+                &proxy,
+                prism_port(),
+                &bin,
+                "mock",
+                &spec,
+                "--host",
+                "127.0.0.1",
+            ])
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .spawn()
